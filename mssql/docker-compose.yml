@@ -1,0 +1,19 @@
+﻿version: '1.0.0'
+
+services:
+
+#connection string "Host=localhost;Port=1433;Username=sa;Password=Password1"
+  mssql:
+    restart: unless-stopped
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    container_name: mssql2019
+    hostname: localhost
+    ports:
+      - 1433:1433
+    volumes:
+      - type: bind
+        source: ./data
+        target: /var/opt/mssql/data/
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=Password1

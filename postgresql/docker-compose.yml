@@ -1,0 +1,24 @@
+﻿version: '1.0.0'
+
+services:
+
+#connection to server at "PostgreSQL" (localhost), port 5432
+  db:
+    restart: unless-stopped
+    image: postgres
+    container_name: PostgreSQL
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: StasPI
+      POSTGRES_DB: postgres
+      POSTGRES_PASSWORD: Password1
+    #volumes:
+    #  - db:/var/lib/postgresql/data
+      #- type: bind
+      #  source: ./data
+      #  target: /var/lib/postgresql/data
+    #command: bash -c 'chmod 700 /var/lib/postgresql/data; ./docker-entrypoint.sh;'
+
+#volumes:
+#  db:
