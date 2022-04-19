@@ -15,5 +15,10 @@ services:
         source: ./data
         target: /var/opt/mssql/data/
     environment:
-      - ACCEPT_EULA=Y
-      - SA_PASSWORD=Password1
+      ACCEPT_EULA: Y
+      SA_PASSWORD: Password1
+      MSSQL_PID: Developer
+      MSSQL_COLLATION: Cyrillic_General_CI_AS
+      MSSQL_AGENT_ENABLED: false
+      # MSSQL_MASTER_DATA_FILE:
+      # MSSQL_MASTER_LOG_FILE: 
