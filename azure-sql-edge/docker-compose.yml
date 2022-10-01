@@ -1,0 +1,20 @@
+﻿version: '3'
+#connection string "Host=localhost;Port=1433;Username=sa;Password=Password1"
+services:
+  mssql:
+    image: mcr.microsoft.com/azure-sql-edge
+    container_name: "mssql"
+    user: root
+    restart: always
+    hostname: localhost
+    environment:
+      ACCEPT_EULA: Y
+      MSSQL_SA_PASSWORD: Password1
+      MSSQL_PID: Developer
+      MSSQL_COLLATION: Cyrillic_General_CI_AS
+    volumes:
+      - ./data/mssql/data/:/var/opt/mssql/data
+      - ./data/mssql/log/:/var/opt/mssql/log
+      - ./data/mssql/secrets/:/var/opt/mssql/secrets
+    ports:
+      - 1433:1433
