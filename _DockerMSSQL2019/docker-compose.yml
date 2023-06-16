@@ -1,0 +1,37 @@
+﻿version: '3.8'
+services:
+  database:
+    build:
+      context: .
+      dockerfile: dockerfile
+    restart: unless-stopped
+    container_name: mssql2019
+    hostname: localhost
+    ports:
+      - "1434:1433"
+    env_file:
+      - sqlserver.env
+      - sapassword.env
+    volumes:
+      - sqlsystem:/var/opt/mssql/
+      - sqldata:/var/opt/sqlserver/data
+      - sqllog:/var/opt/sqlserver/log
+      - sqlbackup:/var/opt/sqlserver/backup
+      - type: bind
+        source: ./../_DockerDATA
+        target: /var/opt/sqlserver/data
+      - type: bind
+        source: ./../_DockerLOG
+        target: /var/opt/sqlserver/log
+      - type: bind
+        source: ./../_DockerBACKUP
+        target: /var/opt/sqlserver/backup
+    environment:
+      MSSQL_PID: Developer
+      MSSQL_COLLATION: Cyrillic_General_CI_AS
+      MSSQL_AGENT_ENABLED: false
+volumes:
+  sqlsystem:
+  sqldata:
+  sqllog:
+  sqlbackup:

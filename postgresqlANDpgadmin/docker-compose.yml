@@ -16,22 +16,21 @@ services:
       - ./config/servers.json:/pgadmin4/servers.json # preconfigured servers/connections
       - ./config/pgpassfile:/pgadmin4/pgpassfile # passwords for the connections in this file
 
-#connection string "Host=localhost;Port=5432;Database=postgres;Username=StasPI;Password=Password1"
-  db:
+#connection string "Host=localhost;Port=5432;Database=postgres;Username=sa;Password=Password1"
+  postgres:
     restart: unless-stopped
     image: postgres
     container_name: PostgreSQL
     ports:
       - "5432:5432"
     environment:
-      POSTGRES_USER: StasPI
+      POSTGRES_USER: sa
       POSTGRES_DB: postgres
       POSTGRES_PASSWORD: Password1
-    # volumes:
-    #   - type: bind
-    #     source: ./data
-    #     target: /var/lib/postgresql/data
-    # command: bash -c 'chmod 700 /var/lib/postgresql/data'
+      PGDATA: "/var/lib/postgresql/data/data"
+    volumes:
+      - .:/var/lib/postgresql/data
 
-#volumes:
-#  db:
+volumes:
+ postgres:
+ pgadmin:

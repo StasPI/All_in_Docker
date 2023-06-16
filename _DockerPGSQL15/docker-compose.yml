@@ -1,0 +1,30 @@
+﻿version: '3.8'
+services:
+  database:
+    build:
+      context: .
+    restart: unless-stopped
+    image: postgres:15
+    container_name: pgsql15
+    hostname: localhost
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_USER: sa
+      POSTGRES_DB: postgres
+      POSTGRES_PASSWORD: Password1
+      PGDATA: "/var/lib/postgresql/data/pg15"
+      POSTGRES_INITDB_WALDIR: "/var/lib/postgresql/log/pg15"
+    volumes:
+      - sqldata:/var/lib/postgresql/data
+      - sqllog:/var/lib/postgresql/log
+      - type: bind
+        source: ./../_DockerDATA
+        target: /var/lib/postgresql/data
+      - type: bind
+        source: ./../_DockerLOG
+        target: /var/lib/postgresql/log
+
+volumes:
+  sqldata:
+  sqllog:
