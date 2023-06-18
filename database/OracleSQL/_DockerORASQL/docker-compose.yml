@@ -1,0 +1,26 @@
+﻿version: '3.8'
+services:
+  database:
+    build:
+      context: .
+    restart: unless-stopped
+    image: gvenzl/oracle-xe:21
+    container_name: oracle
+    hostname: localhost
+    ports:
+      - "1522:1521"
+    environment:
+      system: sa
+      ORACLE_PASSWORD: Password1
+      ORACLE_DATABASE: SYS
+      APP_USER: sa
+      APP_USER_PASSWORD: Password1
+    volumes:
+      - sqldata:/opt/oracle/oradata/XE
+      - type: bind
+        source: ./../_DockerDATA
+        target: /opt/oracle/oradata
+volumes:
+  sqldata:
+
+#https://hub.docker.com/r/gvenzl/oracle-xe
