@@ -1,0 +1,8 @@
+FROM alpine:3.17
+RUN apk --no-cache add --update openssh bash && \    
+        adduser -D -s /bin/bash "sa" && \
+        echo "sa:Password1" | chpasswd && \
+        ssh-keygen -A && \
+        mkdir -p /home/sa/upload && \
+        chown -R sa:sa /home/sa
+CMD ["/usr/sbin/sshd", "-D", "-e"]

@@ -1,0 +1,29 @@
+version: "2.4"
+
+services:
+#localhost 21 sa Password1
+  ftp: 
+    image: delfer/alpine-ftp-server
+    container_name: ftp
+    restart: unless-stopped
+    environment:
+      - USERS=sa|Password1
+      - ADDRESS=127.0.0.1
+    ports:
+      - 21:21
+      - 21000-21010:21000-21010
+
+#localhost 22 sa Password1
+  sftp:
+    build:
+      context: .
+      dockerfile: dockerfile
+    container_name: sftp
+    restart: unless-stopped
+    volumes:
+      - sftp-data:/home/sa/upload
+    ports:
+      - "22:22"
+volumes:
+  ftp-data:
+  sftp-data:
