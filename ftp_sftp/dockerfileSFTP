@@ -1,0 +1,11 @@
+FROM alpine:3.17
+RUN apk --no-cache add --update openssh && \    
+        adduser -D -H -s /bin/false "sa" && \
+        echo "sa:Password1" | chpasswd && \
+        ssh-keygen -A && \
+        mkdir -p /home/sa/ftp/sa && \
+        chown root:root /home/sa && \
+        chmod 755 -R /home/sa && \
+        chown -R sa:sa /home/sa/ftp/sa && \
+        echo -e "Match User sa\n    ChrootDirectory /home/sa\n    ForceCommand internal-sftp -d ./ftp/sa" >> /etc/ssh/sshd_config
+CMD ["/usr/sbin/sshd", "-D", "-e"]

@@ -2,10 +2,16 @@ version: "2.4"
 
 services:
 #localhost 21 sa Password1
+#root path     "./"     eq "/ftp/sa"      (server path "/ftp/sa")
+#relative path "./test" eq "/ftp/sa/test" (server path "/ftp/sa/test")
   ftp: 
     image: delfer/alpine-ftp-server
+    build:
+      context: .
+      dockerfile: dockerfileSFTP
     container_name: ftp
     restart: unless-stopped
+    volumes: [ ./ftp:/ftp/sa]
     environment:
       - USERS=sa|Password1
       - ADDRESS=127.0.0.1
@@ -14,14 +20,15 @@ services:
       - 21000-21010:21000-21010
 
 #localhost 22 sa Password1
+#root path     "./"     eq "/ftp/sa"      (server path "/ftp/sa")
+#relative path "./test" eq "/ftp/sa/test" (server path "/ftp/sa/test")
   sftp:
     build:
       context: .
-      dockerfile: dockerfile
+      dockerfile: dockerfileSFTP
     container_name: sftp
     restart: unless-stopped
-    volumes:
-      - sftp-data:/home/sa/upload
+    volumes: [ ./sftp:/home/sa/ftp/sa]
     ports:
       - "22:22"
 volumes:
